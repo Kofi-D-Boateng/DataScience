@@ -1,28 +1,14 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
-___
-
-<a href='http://www.pieriandata.com'> <img src='../Pierian_Data_Logo.png' /></a>
-___
 # Linear Regression Project
 
-Congratulations! You just got some contract work with an Ecommerce company based in New York City that sells clothing online but they also have in-store style and clothing advice sessions. Customers come in to the store, have sessions/meetings with a personal stylist, then they can go home and order either on a mobile app or website for the clothes they want.
+### Congratulations! You just got some contract work with an Ecommerce company based in New York City that sells clothing online but they also have in-store style and clothing advice sessions. Customers come in to the store, have sessions/meetings with a personal stylist, then they can go home and order either on a mobile app or website for the clothes they want.
 
-The company is trying to decide whether to focus their efforts on their mobile app experience or their website. They've hired you on contract to help them figure it out! Let's get started!
+# The company is trying to decide whether to focus their efforts on their mobile app experience or their website. They've hired you on contract to help them figure it out! Let's get started!
 
-Just follow the steps below to analyze the customer data (it's fake, don't worry I didn't give you real credit card numbers or emails).
+# Just follow the steps below to analyze the customer data (it's fake, don't worry I didn't give you real credit card numbers or emails).
 
 
 # ## Imports
 # ** Import pandas, numpy, matplotlib,and seaborn. Then set %matplotlib inline 
-# (You'll import sklearn as you need it.)**
-
-# In[2]:
-
 
 import pandas as pd
 import numpy as np
@@ -41,28 +27,14 @@ import matplotlib.pyplot as plt
 # 
 # ** Read in the Ecommerce Customers csv file as a DataFrame called customers.**
 
-# In[3]:
-
-
 customers = pd.read_csv("Ecommerce Customers")
 
 
 # **Check the head of customers, and check out its info() and describe() methods.**
 
-# In[4]:
-
-
 customers.head()
 
-
-# In[5]:
-
-
 customers.info()
-
-
-# In[6]:
-
 
 customers.describe()
 
@@ -74,9 +46,6 @@ customers.describe()
 # For the rest of the exercise we'll only be using the numerical data of the csv file.
 # ___
 # **Use seaborn to create a jointplot to compare the Time on Website and Yearly Amount Spent columns. Does the correlation make sense?**
-
-# In[10]:
-
 
 sns.jointplot(x="Time on Website", y="Yearly Amount Spent", data=customers)
 plt.savefig("WebsiteTimeVsAmountSpent.png", dpi=300, transparent=False)
@@ -99,16 +68,10 @@ plt.savefig("AppTimeVsAmountSpent.png", dpi=300, transparent=False)
 
 # ** Use jointplot to create a 2D hex bin plot comparing Time on App and Length of Membership.**
 
-# In[8]:
-
-
 sns.jointplot(x="Time on Website", y="Yearly Amount Spent", kind="hex",data=customers)
 
 
 # **Let's explore these types of relationships across the entire data set. Use [pairplot](https://stanford.edu/~mwaskom/software/seaborn/tutorial/axis_grids.html#plotting-pairwise-relationships-with-pairgrid-and-pairplot) to recreate the plot below.(Don't worry about the the colors)**
-
-# In[11]:
-
 
 sns.pairplot(data=customers)
 plt.savefig("pairplot.png", dpi=300)
@@ -116,16 +79,10 @@ plt.savefig("pairplot.png", dpi=300)
 
 # **Based off this plot what looks to be the most correlated feature with Yearly Amount Spent?**
 
-# In[285]:
-
-
-Length of membership 
+# Length of membership 
 
 
 # **Create a linear model plot (using seaborn's lmplot) of  Yearly Amount Spent vs. Length of Membership. **
-
-# In[12]:
-
 
 sns.lmplot(x="Length of Membership", y="Yearly Amount Spent", data=customers)
 plt.savefig("AmountSpentVsMembership.png", dpi=300, transparent=False)
@@ -136,31 +93,14 @@ plt.savefig("AmountSpentVsMembership.png", dpi=300, transparent=False)
 # Now that we've explored the data a bit, let's go ahead and split the data into training and testing sets.
 # ** Set a variable X equal to the numerical features of the customers and a variable y equal to the "Yearly Amount Spent" column. **
 
-# In[13]:
-
 
 from sklearn.model_selection import train_test_split
 X = customers[["Avg. Session Length", "Time on App", "Time on Website", "Length of Membership"]]
 y = customers["Yearly Amount Spent"]
 
 
-# In[14]:
-
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)
-
-
 # ** Use model_selection.train_test_split from sklearn to split the data into training and testing sets. Set test_size=0.3 and random_state=101**
-
-# In[289]:
-
-
-
-
-
-# In[290]:
-
-
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)
 
 
 
@@ -170,15 +110,10 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 # 
 # ** Import LinearRegression from sklearn.linear_model **
 
-# In[15]:
-
-
 from sklearn.linear_model import LinearRegression
 
 
 # **Create an instance of a LinearRegression() model named lm.**
-
-# In[16]:
 
 
 lm= LinearRegression() 
@@ -186,17 +121,12 @@ lm= LinearRegression()
 
 # ** Train/fit lm on the training data.**
 
-# In[17]:
-
 
 lm.fit(X_train, y_train)
 print(lm.coef_)
 
 
 # **Print out the coefficients of the model**
-
-# In[18]:
-
 
 print(lm.coef_)
 
@@ -206,16 +136,10 @@ print(lm.coef_)
 # 
 # ** Use lm.predict() to predict off the X_test set of the data.**
 
-# In[19]:
-
-
 lm.predict(X_test)
 
 
 # ** Create a scatterplot of the real test values versus the predicted values. **
-
-# In[20]:
-
 
 predictions = lm.predict(X_test)
 plt.scatter(y_test,predictions)
@@ -230,9 +154,6 @@ plt.savefig("LinearRegression.png")
 # 
 # ** Calculate the Mean Absolute Error, Mean Squared Error, and the Root Mean Squared Error. Refer to the lecture or to Wikipedia for the formulas**
 
-# In[21]:
-
-
 from sklearn import metrics
 print("MAE:", metrics.mean_absolute_error(y_test, predictions))
 print("MSE:", metrics.mean_squared_error(y_test, predictions))
@@ -245,9 +166,6 @@ print("RMSE:", np.sqrt(metrics.mean_squared_error(y_test, predictions)))
 # 
 # **Plot a histogram of the residuals and make sure it looks normally distributed. Use either seaborn distplot, or just plt.hist().**
 
-# In[22]:
-
-
 sns.distplot((y_test-predictions), bins=50)
 
 
@@ -256,22 +174,9 @@ sns.distplot((y_test-predictions), bins=50)
 # 
 # ** Recreate the dataframe below. **
 
-# In[23]:
-
 
 df = pd.DataFrame(lm.coef_, X.columns)
 df.columns = ["Coefficients"]
 df.to_csv("predicted-number.csv")
-
-
-# ** How can you interpret these coefficients? **
-
-# *Answer here*
-
-# **Do you think the company should focus more on their mobile app or on their website?**
-
-# *Answer here*
-
-# ## Great Job!
-# 
+ 
 # Congrats on your contract work! The company loved the insights! Let's move on.
