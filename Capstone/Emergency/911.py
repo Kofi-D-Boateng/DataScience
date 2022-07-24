@@ -19,96 +19,33 @@
 
 # ## Data and Setup
 
-# ____
-# ** Import numpy and pandas **
-
-# In[1]:
-
-
-import numpy as np
 import pandas as pd
-
-
-# ** Import visualization libraries and set %matplotlib inline. **
-
-# In[3]:
-
-
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-
-# In[ ]:
-
-
 # ** Read in the csv file as a dataframe called df **
-
-
-# In[4]:
-
-
 df = pd.read_csv("911.csv")
 
 
 # ** Check the info() of the df **
-
-# In[4]:
-
-
 df.info()
 
 
 # ** Check the head of df **
-
-# In[5]:
-
-
 df.head()
 
 
 # ## Basic Questions
 
 # ** What are the top 5 zipcodes for 911 calls? **
-
-# In[10]:
-
-
 df["zip"].value_counts().head(5)
 
-
-# In[134]:
-
-
-
-
-
 # ** What are the top 5 townships (twp) for 911 calls? **
-
-# In[11]:
-
-
 df["twp"].value_counts().head(5)
-
-
-# In[135]:
-
-
-
-
 
 # ** Take a look at the 'title' column, how many unique title codes are there? **
 
-# In[12]:
-
-
 df["title"].nunique()
-
-
-# In[136]:
-
-
-
-
 
 # ## Creating new features
 
@@ -116,44 +53,19 @@ df["title"].nunique()
 # 
 # **For example, if the title column value is EMS: BACK PAINS/INJURY , the Reason column value would be EMS. **
 
-# In[14]:
-
-
 df["Reason"] = df["title"].apply(lambda title: title.split(":")[0])
 
 
 # ** What is the most common Reason for a 911 call based off of this new column? **
 
-# In[16]:
-
-
 df["Reason"].value_counts().head(3)
-
-
-# In[138]:
-
-
-
-
 
 # ** Now use seaborn to create a countplot of 911 calls by Reason. **
 
-# In[20]:
-
-
-sns.countplot(x="Reason", data=df)
-
-
-# In[139]:
-
-
-
-
-
+sns.countplot(x="Reason", data=df, palette='viridis')
+plt.savefig("Reasons.png", dpi=300, facecolor="white", bbox_inches="tight" ,transparent=False)
 # ___
 # ** Now let us begin to focus on time information. What is the data type of the objects in the timeStamp column? **
-
-# In[34]:
 
 
 type(df["timeStamp"].iloc[0])
@@ -161,11 +73,7 @@ type(df["timeStamp"].iloc[0])
 
 # ** You should have seen that these timestamps are still strings. Use [pd.to_datetime](http://pandas.pydata.org/pandas-docs/stable/generated/pandas.to_datetime.html) to convert the column from strings to DateTime objects. **
 
-# In[35]:
-
-
 df["timeStamp"] = pd.to_datetime(df["timeStamp"])
-
 
 # ** You can now grab specific attributes from a Datetime object by calling them. For example:**
 # 
@@ -173,8 +81,6 @@ df["timeStamp"] = pd.to_datetime(df["timeStamp"])
 #     time.hour
 # 
 # **You can use Jupyter's tab method to explore the various attributes you can call. Now that the timestamp column are actually DateTime objects, use .apply() to create 3 new columns called Hour, Month, and Day of Week. You will create these columns based off of the timeStamp column, reference the solutions if you get stuck on this step.**
-
-# In[36]:
 
 
 df["Hour"]= df["timeStamp"].apply(lambda time: time.hour )
@@ -186,13 +92,7 @@ df["Day of Week"]= df["timeStamp"].apply(lambda time: time.dayofweek)
 # 
 #     dmap = {0:'Mon',1:'Tue',2:'Wed',3:'Thu',4:'Fri',5:'Sat',6:'Sun'}
 
-# In[37]:
-
-
 dmap = {0:'Mon',1:'Tue',2:'Wed',3:'Thu',4:'Fri',5:'Sat',6:'Sun'}
-
-
-# In[38]:
 
 
 df["Day of Week"] = df["Day of Week"].map(dmap)
@@ -200,20 +100,18 @@ df["Day of Week"] = df["Day of Week"].map(dmap)
 
 # ** Now use seaborn to create a countplot of the Day of Week column with the hue based off of the Reason column. **
 
-# In[40]:
 
+sns.countplot(x="Day of Week", data =df, hue="Reason", palette='viridis')
+plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.0)
+plt.savefig("ReasonsPerWeek.png", dpi=300, facecolor="white", bbox_inches="tight" ,transparent=False)
 
-sns.countplot(x="Day of Week", data =df, hue="Reason")
-plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 
 
 # **Now do the same for Month:**
 
-# In[41]:
-
-
-sns.countplot(x="Month", data =df, hue="Reason")
-plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+sns.countplot(x="Month", data =df, hue="Reason", palette='viridis')
+plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.0)
+plt.savefig("ReasonsPerMonth.png", dpi=300, facecolor="white", bbox_inches="tight" ,transparent=False)
 
 
 # **Did you notice something strange about the Plot?**
@@ -224,39 +122,18 @@ plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 
 # ** Now create a gropuby object called byMonth, where you group the DataFrame by the month column and use the count() method for aggregation. Use the head() method on this returned DataFrame. **
 
-# In[55]:
-
-
 byMonth = df.groupby('Month').count()
 byMonth.head()
 
-
-# In[ ]:
-
-
-
-
-
 # ** Now create a simple plot off of the dataframe indicating the count of calls per month. **
-
-# In[56]:
-
 
 byMonth['twp'].plot()
 
-
-# In[ ]:
-
-
-
-
-
 # ** Now see if you can use seaborn's lmplot() to create a linear fit on the number of calls per month. Keep in mind you may need to reset the index to a column. **
-
-# In[57]:
 
 
 sns.lmplot(x="Month", y="twp", data=byMonth.reset_index())
+plt.savefig("TwpVsMonthLF.png", dpi=300, facecolor="white", bbox_inches="tight" ,transparent=False)
 
 
 # **Create a new column called 'Date' that contains the date from the timeStamp column. You'll need to use apply along with the .date() method. ** 
@@ -269,119 +146,64 @@ df['Date']= df["timeStamp"].apply(lambda t: t.date())
 
 # ** Now groupby this Date column with the count() aggregate and create a plot of counts of 911 calls.**
 
-# In[67]:
-
-
-df.groupby('Date').count()['twp'].plot()
+t= df.groupby('Date').count()['twp']
+plt.figure(figsize=(10,5))
+plt.title("Timestamp of emergencies")
+plt.plot(t)
 plt.tight_layout()
-
-
-# In[197]:
-
-
+plt.savefig("TimestampsOfEmergencies.png", dpi=300, facecolor="white", bbox_inches="tight" ,transparent=False)
 
 
 
 # ** Now recreate this plot but create 3 separate plots with each plot representing a Reason for the 911 call**
 
-# In[71]:
-
-
-df[df["Reason"]== 'Traffic'].groupby('Date').count()['twp'].plot()
+# TRAFFIC
+t = df[df["Reason"]== 'Traffic'].groupby('Date').count()['twp']
+plt.figure(figsize=(10,5))
 plt.title("Traffic")
+plt.plot(t)
 plt.tight_layout()
+plt.savefig("TrafficCalls.png", dpi=300, facecolor="white", bbox_inches="tight" ,transparent=False)
 
-
-# In[199]:
-
-
-
-
-
-# In[72]:
-
-
-df[df["Reason"]== 'Fire'].groupby('Date').count()['twp'].plot()
+# FIRE
+t= df[df["Reason"]== 'Fire'].groupby('Date').count()['twp']
+plt.figure(figsize=(10,5))
 plt.title("Fire")
+plt.plot(t)
 plt.tight_layout()
+plt.savefig("FireCalls.png", dpi=300, facecolor="white", bbox_inches="tight" ,transparent=False)
 
-
-# In[201]:
-
-
-
-
-
-# In[73]:
-
-
-df[df["Reason"]== 'EMS'].groupby('Date').count()['twp'].plot()
+# EMS
+t = df[df["Reason"]== 'EMS'].groupby('Date').count()['twp']
+plt.figure(figsize=(12,6))
 plt.title("EMS")
+plt.plot(t)
 plt.tight_layout()
-
-
-# In[202]:
-
-
-
-
+plt.savefig("EMSCalls.png", dpi=300, facecolor="white", bbox_inches="tight" ,transparent=False)
 
 # ____
 # ** Now let's move on to creating  heatmaps with seaborn and our data. We'll first need to restructure the dataframe so that the columns become the Hours and the Index becomes the Day of the Week. There are lots of ways to do this, but I would recommend trying to combine groupby with an [unstack](http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.unstack.html) method. Reference the solutions if you get stuck on this!**
 
-# In[78]:
-
-
 dayHour = df.groupby(by=["Day of Week", "Hour"]).count()['Reason'].unstack()
 dayHour.head()
-
-
-# In[79]:
-
 
 plt.figure(figsize=(12,6))
 sns.heatmap(dayHour, cmap='viridis')
-
-
-# In[204]:
-
-
-sns.heatmap(dayHour)
-
-
-# ** Now create a HeatMap using this new DataFrame. **
+plt.savefig("dayHourHeatmap.png", dpi=300, facecolor="white", bbox_inches="tight" ,transparent=False)
 
 # ** Now create a clustermap using this DataFrame. **
 
-# In[82]:
-
-
 sns.clustermap(dayHour, cmap='viridis')
-
-
-# In[205]:
-
-
-sns.clustermap(dayHour)
-
 
 # ** Now repeat these same plots and operations, for a DataFrame that shows the Month as the column. **
 
-# In[207]:
 
+dayMonth = df.groupby(by=["Day of Week", "Month"]).count()['Reason'].unstack()
+dayMonth.head()
 
-dayHour = df.groupby(by=["Day of Week", "Hour"]).count()['Reason'].unstack()
-dayHour.head()
-
-
-# In[208]:
-
-
-
-
-
-# In[209]:
-
+plt.figure(figsize=(12,6))
+sns.heatmap(dayMonth, cmap='viridis')
+plt.savefig("dayMonthHeatmap.png", dpi=300, facecolor="white", bbox_inches="tight" ,transparent=False)
 
 
 

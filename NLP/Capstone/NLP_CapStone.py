@@ -1,10 +1,6 @@
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import nltk 
-
-
 
 # ## The Data
 # 
@@ -24,7 +20,6 @@ yelp.describe()
 
 yelp['text length'] = yelp['text'].apply(len)
 yelp['text length']
-
 
 # # EDA
 # 

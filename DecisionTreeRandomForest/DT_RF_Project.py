@@ -1,10 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# ___
-# 
-# <a href='http://www.pieriandata.com'> <img src='../Pierian_Data_Logo.png' /></a>
-# ___
 # # Random Forest Project 
 # 
 # For this project we will be exploring publicly available data from [LendingClub.com](www.lendingclub.com). Lending Club connects people who need money (borrowers) with people who have money (investors). Hopefully, as an investor you would want to invest in people who showed a profile of having a high probability of paying you back. We will try to create a model that will help predict this.
@@ -29,8 +22,6 @@
 # * pub.rec: The borrower's number of derogatory public records (bankruptcy filings, tax liens, or judgments).
 
 # # Import Libraries
-# 
-# **Import the usual libraries for pandas and plotting. You can import sklearn later on.**
 
 import pandas as pd
 import numpy as np
@@ -40,13 +31,10 @@ import seaborn as sns
 # ## Get the Data
 # 
 # ** Use pandas to read loan_data.csv as a dataframe called loans.**
-
-
 loans = pd.read_csv("loan_data.csv")
 
 
 # ** Check out the info(), head(), and describe() methods on loans.**
-
 loans.info()
 
 
@@ -179,7 +167,6 @@ pred = dtree.predict(X_test)
 
 from sklearn.metrics import confusion_matrix, classification_report
 
-
 print(classification_report(y_test,pred))
 classification_report(y_test,pred).to_csv()
 
@@ -220,7 +207,4 @@ print(classification_report(y_test,rf_pred))
 
 print(confusion_matrix(y_test,rf_pred))
 
-# **What performed better the random forest or the decision tree?**
-
 #The recall for both is very bad, therefore more engineering is needed.
-#DONE

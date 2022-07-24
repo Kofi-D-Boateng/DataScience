@@ -51,16 +51,7 @@ sns.jointplot(x="Time on Website", y="Yearly Amount Spent", data=customers)
 plt.savefig("WebsiteTimeVsAmountSpent.png", dpi=300, transparent=False)
 
 
-# In[281]:
-
-
-
-
-
 # ** Do the same but with the Time on App column instead. **
-
-# In[9]:
-
 
 sns.jointplot(x="Time on App", y="Yearly Amount Spent", data=customers)
 plt.savefig("AppTimeVsAmountSpent.png", dpi=300, transparent=False)
@@ -80,8 +71,6 @@ plt.savefig("pairplot.png", dpi=300)
 # **Based off this plot what looks to be the most correlated feature with Yearly Amount Spent?**
 
 # Length of membership 
-
-
 # **Create a linear model plot (using seaborn's lmplot) of  Yearly Amount Spent vs. Length of Membership. **
 
 sns.lmplot(x="Length of Membership", y="Yearly Amount Spent", data=customers)
