@@ -11,9 +11,17 @@ receive.
 
 # Dataset
 
-The data set used is a listing of 911 calls from Montgomery, Pennsylvania in 2016. The fields in the csv are as follows: - Latitude: Physical Location - Longitude: Physical Location - Description: Metadata regarding the call - Zipcode: the zipcode where the call was made in - Title: Metadata regarding what the type of call - Twp: Township (Location) - Address: Location
+The data set used is a listing of 911 calls from Montgomery, Pennsylvania in 2016. The fields in the csv are as follows:
 
-# Cleaning and Story telling
+- Latitude: Physical Location
+- Longitude: Physical Location
+- Description: Metadata regarding the call
+- Zipcode: the zipcode where the call was made in
+- Title: Metadata regarding what the type of call
+- Twp: Township (Location)
+- Address: Location
+
+# Data Insight
 
 After cleaning the data up some, there is an average of 98001.2 data points within each columnm, with description being the outlier for least.
 
