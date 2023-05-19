@@ -7,8 +7,6 @@ The goal is to manipulate the data to help us understand how busy
 this precient is, as well as the what type of calls they routinely
 receive.
 
----
-
 # Dataset
 
 The data set used is a listing of 911 calls from Montgomery, Pennsylvania in 2016. The fields in the csv are as follows:
