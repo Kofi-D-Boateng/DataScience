@@ -1,6 +1,6 @@
 # K-Means Clustering
 
-## Project Abstract
+# Project Abstract
 
 In this project I attempted to group two universities into public or private based off the csv data given to use.
 
