@@ -18,22 +18,14 @@ yelp = pd.read_csv("yelp.csv")
 
 # yelp.describe()
 
-
-# **Create a new column called "text length" which is the number of words in the text column.**
-
 yelp['text length'] = yelp['text'].apply(len)
 
-# Let's explore the data
+# Data Exploration
 
-g = sns.FacetGrid(yelp, col="stars")
+g = sns.FacetGrid(yelp, col="stars").map(plt.hist,col="")
 g.map(plt.hist, 'text length')
 
-
-# **Create a boxplot of text length for each star category.**
 sns.boxplot(x='stars', y='text length', data=yelp, palette='rainbow')
-
-
-# **Create a countplot of the number of occurrences for each type of star rating.**
 
 sns.countplot(data=yelp, x="stars", palette='rainbow')
 
@@ -43,27 +35,22 @@ yelp_stars_avg=yelp.groupby('stars').mean()
 
 # yelp_stars_avg.corr()
 
-
-# **Then use seaborn to create a heatmap based off that .corr() dataframe:**
 sns.heatmap(yelp_stars_avg.corr(),cmap='coolwarm', annot=True)
 
 
-# ## NLP Classification Task
-# 
-# Let's move on to the actual task. To make things a little easier, go ahead and only grab reviews that were either 1 star or 5 stars.
-# 
-# **Create a dataframe called yelp_class that contains the columns of yelp dataframe but for only the 1 or 5 star reviews.**
-yelp_class = yelp[(yelp.stars== 1) | (yelp.stars== 5)]
+# NLP Classification Task
+
+yelp_class = yelp[(yelp['stars']== 1) | (yelp['stars']== 5)]
 
 X = yelp_class["text"]
 
 y = yelp_class['stars']
 
-
+# Tokenizer
 cv = CountVectorizer()
 
 
-# ** Use the fit_transform method on the CountVectorizer object and pass in X (the 'text' column). Save this result by overwriting X.**
+# Tokenized Text
 X = cv.fit_transform(X)
 
 
@@ -96,8 +83,7 @@ print(classification_report(y_test,predictions))
 
 # Let's see what happens if we try to include TF-IDF to this process using a pipeline
 
-
-# ** Now create a pipeline with the following steps:CountVectorizer(), TfidfTransformer(),MultinomialNB()**
+# Pipeline
 pipeline = Pipeline([
     ("bow: ", CountVectorizer()),
     ("tfidf: ", TfidfTransformer()),
@@ -122,8 +108,8 @@ pipeline.fit(xx_train,yy_train)
 
 # ### Predictions and Evaluation
 
-predict = pipeline.predict(X_test)
+predict = pipeline.predict(xx_test)
 
-print(confusion_matrix(y_test,predict))
+print(confusion_matrix(yy_test,predict))
 print("\n")
-print(classification_report(y_test,predict))
+print(classification_report(yy_test,predict))
