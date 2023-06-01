@@ -11,7 +11,7 @@ The purpose of these projects is to demonstrate and understanding of some of pyt
 Project topics include:
 
 - [NLP](/NLP/)
-- [TensorFlow](/ML/Tensorflow/)
+- [TensorFlow](/Tensorflow/)
 - [K-Nearest Neighbors](/KNearestNeighbors/)
 - [K-Means Clustering](/KMeansClustering/)
 - [Linear](/LinearRegression/) & [Logic Regression](/LogisticRegression/)
